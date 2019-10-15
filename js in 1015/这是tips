@@ -1,0 +1,62 @@
+1、在Generator中，throw()、return()、next()它们的作用都是
+让 Generator 函数恢复执行，并且使用不同的语句替换yield表达式
+
+2、yield*只能直接遍历有Iterator接口的数据结构，例如字符串、数组等等
+
+3、绑定this的方法
+call、
+
+4、异步操作写在yield表达式里，等到调用next方法时再往后执行
+Generator 函数的一个重要实际意义就是用来处理异步操作，改写回调函数
+
+5、await 等到了要等的，然后呢
+如果它等到的不是一个 Promise 对象，那 await 表达式的运算结果就是它等到的东西。
+如果它等到的是一个 Promise 对象，await 就忙起来了，它会阻塞后面的代码，等着 Promise 对象 resolve，然后得到 resolve 的值，作为 await 表达式的运算结果。
+
+6、ES6 规定，Promise对象是一个构造函数，用来生成Promise实例
+Promise接收的是一个函数（回调函数）
+回调函数由两个参数，这个参数（reslove，reject）分别都是函数
+new Promise生成的是一个promise实例，该实例拥有then方法
+then方法接收两个函数，第一个函数跟reslove相关，第二个函数和reject相关，reslove执行就会触发then里的第一个函数执行，并且会把reslove接收的参数传递给then里的第一个函数
+reslove和reject只有一个会执行
+Promise有三种状态 pending(执行中)/resloved(异步代码成功执行)/rejected(异步代码执行失败)
+
+7、如果await后面的异步操作出错，那么等同于async函数返回的 Promise 对象被reject
+async function f() {
+  await new Promise(function (resolve, reject) {
+    throw new Error('出错了');
+  });
+}
+解决方式：1、使用try、catch语句包裹；2、在此await后加catch语句
+
+8、如果多个await命令后的异步操作不存在继发关系，那么最好让它们同时触发
+    let foo = await getFoo();
+    let bar = await getBar();
+            （x）
+    let [foo, bar] = await Promise.all([getFoo(), getBar()]);
+            （ok）
+
+9、async函数可以保留堆栈
+
+10、export命令应该出现在模块顶端，不能出现在块级作用域内
+
+11、import是静态执行，所以不能使用表达式和变量，这些只有在运行时才能得到结果的语法结构
+
+12、export时，对应import语句需要{}；export default时，对应import语句不需要{}
+而export default的import不需要大括号的原因是一个模块只能有一个默认输出
+export default只能使用一次，import只可能对应唯一的export default
+
+13、动态字符串使用反引号；const b = `foo${a}bar`
+
+14、函数返回多个值，优先使用对象的解构赋值，而不是数组的解构赋值
+便于以后添加返回值，以及更改返回值的顺序
+// bad
+function processInput(input) {
+  return [left, right, top, bottom];
+}
+// good
+function processInput(input) {
+  return { left, right, top, bottom };
+}
+
+15、      
